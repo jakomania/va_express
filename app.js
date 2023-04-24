@@ -32,7 +32,7 @@ app.use(cookieParser('secreto'));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(session({
-  secret: 'secret',
+  secret: 'secreto',
   resave: true,
   saveUninitialized: true
 }))

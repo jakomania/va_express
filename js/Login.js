@@ -18,7 +18,7 @@ class Login {
 
   getStoredUser() 
   { 
-    console.log('El nombre buscaddo es' + this.username);
+    console.log('El usuario buscado es ' + this.usernaname);
     return usersDb.find((user) => user.email === this.username );// return user object if exists
   }  
     

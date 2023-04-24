@@ -5,7 +5,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Vintage Addiction</title>
-    <link rel="stylesheet" href="css.css">
+    <link rel="stylesheet" href="stylesheets/css.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,300;0,400;0,700;1,300;1,400;1,700&display=swap" rel="stylesheet">
@@ -19,8 +19,8 @@
 <header>
   <nav class="navbar bg-body-tertiary fixed-top " style="background-color: #480b97 !important;">
     <div class="container col-12 col-md-12 col-lg-12 col-xl-12">
-      <a class="navbar-brand" href="/index"><img class="logo" src="logo.png"/></a>
-      <a onclick="logOut()" class="nav-link" href="/index"><i class="fi fi-br-address-card white" style="font-size:28px;"></i></a>
+      <a class="navbar-brand" href="/"><img class="logo" src="images/logo.png"/></a>
+      <a onclick="logOut()" class="nav-link" href="/logout"><i class="fi fi-br-address-card white" style="font-size:28px;"></i></a>
     </div>
   </nav>
 </header>
@@ -42,7 +42,7 @@
       <h3 class="white" alt="vs">VS</h3>
     </div>
     <div class="col-5 text-center">
-      <img  src="question.png" id="player2Avatar"  style="width: 130px;" alt="Avatar"  />
+      <img  src="images/question.png" id="player2Avatar"  style="width: 130px;" alt="Avatar"  />
       <h3  id="player2User" class="text-center white p-4" alt="Player 2 User">(waiting for player)</h3>
     </div>
   </div>
@@ -52,7 +52,15 @@
 <script>
 
     //Personalize room with cookie data
-    const obj = JSON.parse( document.cookie );
+    //const obj = JSON.parse( document.cookie );
+    
+    
+    decodedCookie = decodeURIComponent(document.cookie.split('=')[1]);
+    decodedCookie = decodedCookie.split('j:')[1];
+
+    console.log( decodedCookie );
+    const obj = JSON.parse( decodedCookie );
+    console.log( obj );    
        
     const room = Object.keys(obj)[0];
     const playersNumber = obj[room].length;
@@ -74,14 +82,13 @@
     //console.log(room, player1Avatar, player1User, playersNumber );
 
     //Set cookie in localStorage
-    localStorage.setItem( 2, document.cookie ); 
+    localStorage.setItem( 'roominfo', decodedCookie ); 
 
     function logOut() 
     {
-      localStorage.clear();
-      location.replace("/index")
+      localStorage.clear();    
+      location.replace("/logout")
     }
-
     
 
 </script>

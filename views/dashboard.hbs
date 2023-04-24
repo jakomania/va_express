@@ -20,8 +20,8 @@
 <header>
   <nav class="navbar bg-body-tertiary fixed-top " style="background-color: #480b97 !important;">
     <div class="container col-12 col-md-12 col-lg-12 col-xl-12">
-      <a class="navbar-brand" href="/index"><img class="logo" src="images/logo.png"/></a>
-      <a onclick="logOut()" class="nav-link" href="/index"><i class="fi fi-br-address-card white" style="font-size:28px;"></i></a>
+      <a class="navbar-brand" href="/"><img class="logo" src="images/logo.png"/></a>
+      <a onclick="logOut()" class="nav-link" href="/logout"><i class="fi fi-br-address-card white" style="font-size:28px;"></i></a>
     </div>
   </nav>
 </header>
@@ -67,8 +67,14 @@
 
   <script>
 
-    //Personalize dashboard with cookie data
-    const obj = JSON.parse( document.cookie );
+    //Personalize dashboard with cookie data    
+    
+    var decodedCookie = decodeURIComponent(document.cookie.split('=')[1]);
+    decodedCookie = decodedCookie.split('j:')[1];
+    
+    const obj = JSON.parse( decodedCookie );    
+    console.log( obj );    
+
     document.getElementById( "user" ).innerHTML = obj.username.toUpperCase() + " DASHBOARD";
     document.getElementById( "room" ).innerHTML = "FAVORITE ROOM " + obj.room.toUpperCase();
 
@@ -76,7 +82,7 @@
     img.src = obj.avatar;
 
     //Set cookie in localStorage
-    localStorage.setItem( 1, document.cookie ); 
+    localStorage.setItem( 'userinfo', decodedCookie ); 
 
     //Add drag & drop capabilties
     img.addEventListener('dragstart', dragStart);
@@ -132,9 +138,10 @@
     }
 
     function logOut() 
-    {
-      localStorage.removeItem("myToken");
-      location.replace("/index")
+    {      
+      localStorage.removeItem("userinfo");
+      localStorage.removeItem("roominfo");
+      location.replace("/logout")
     }
 
 </script>

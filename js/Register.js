@@ -3,8 +3,6 @@ const { usersDb } = require('./storage.js');
 
 class Register {
 
-  fields = {};
-  errors = {};  
 
   constructor(formFields) {
     this.username = formFields.username;
@@ -21,7 +19,7 @@ class Register {
     
     registerUser() 
     {      
-      {
+      {        
         usersDb.push({
           username: this.username,
           email: this.email,
@@ -29,6 +27,8 @@ class Register {
           room: this.room,
           avatar: this.avatar
         })
+        console.log('USUARIOS REGISTRADOS:');
+        console.log(usersDb);
       }
       
     }

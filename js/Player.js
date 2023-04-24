@@ -65,13 +65,10 @@ class Player {
         var players = this.getRoomData();
         var isPresent = false;
 
-        players.forEach(element => 
-            {
+        players.forEach(element => {
                 if ( element.player == this.player)
-                { isPresent = true }
-                
-            });
-        
+                { isPresent = true }                
+            });        
         return isPresent;
     }
 }
