@@ -6,6 +6,7 @@ var PassportLocal = require('passport-local').Strategy;
 const { Login } = require("../js/Login.js");
 const { Register } = require("../js/Register.js");
 const { Player } = require("../js/Player.js");
+const { Game } = require("../js/Game.js");
 
 
 var loggedUser = null;
@@ -70,7 +71,7 @@ router.post('/login',
 
 
 router.get('/register', (req, res, next) => {
-  res.render('register', { title: 'Express' });
+  res.render('register');
 });
 
 router.post('/register',   
@@ -112,6 +113,12 @@ router.post('/room',
         res.cookie('roominfo', obj);
         res.render('room');
       }
+  });
+
+  router.post('/game',   
+  (req, res) => {
+    var game = new Game();
+    game.saySomething(req.body);
   });
 
 

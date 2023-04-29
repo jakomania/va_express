@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {{!-- <meta http-equiv="refresh" content="5"> --}}
+
     <title>Vintage Addiction</title>
     <link rel="stylesheet" href="stylesheets/css.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -51,10 +53,14 @@
 
 <script>
 
+    
+    
+    //Refresh page every 5 seconds.
+    //window.setTimeout( function() {
+    //  window.location.reload();
+    //}, 5000);
+    
     //Personalize room with cookie data
-    //const obj = JSON.parse( document.cookie );
-    
-    
     decodedCookie = decodeURIComponent(document.cookie.split('=')[1]);
     decodedCookie = decodedCookie.split('j:')[1];
 
@@ -72,23 +78,44 @@
     document.getElementById( "player1Avatar" ).src = player1Avatar;  
     document.getElementById( "player1User" ).innerHTML = player1User;
 
+    //Case 2 players in room
     if ( playersNumber == 2 )
     {
       const player2Avatar = obj[room][1].avatar;
       const player2User = obj[room][1].player;
       document.getElementById( "player2Avatar" ).src = player2Avatar;        
       document.getElementById( "player2User" ).innerHTML = player2User;
+      startGame();
     }
     //console.log(room, player1Avatar, player1User, playersNumber );
 
     //Set cookie in localStorage
-    localStorage.setItem( 'roominfo', decodedCookie ); 
+    localStorage.setItem( 'roominfo', decodedCookie );
+
+
 
     function logOut() 
     {
       localStorage.clear();    
       location.replace("/logout")
     }
+
+    function startGame() 
+    {
+      var xhr = new XMLHttpRequest();
+      var url = "/game";
+      xhr.open("POST", url, true);
+      xhr.setRequestHeader("Content-Type", "application/json");
+      xhr.onreadystatechange = function () {
+          if (xhr.readyState === 4 && xhr.status === 200) {
+              var json = JSON.parse(xhr.responseText);
+              //console.log(json.email + ", " + json.password);
+          }
+      };      
+      var data = localStorage.getItem('roominfo');
+      xhr.send(data);
+    }
+    
     
 
 </script>
