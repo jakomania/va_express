@@ -8,6 +8,8 @@ const { Register } = require("../js/Register.js");
 const { Player } = require("../js/Player.js");
 const { Game } = require("../js/Game.js");
 
+module.exports = router;
+
 
 var loggedUser = null;
 
@@ -115,11 +117,11 @@ router.post('/room',
       }
   });
 
-  router.post('/game',   
-  (req, res) => {
-    var game = new Game();
-    game.saySomething(req.body);
-  });
+  // router.post('/game',   
+  // (req, res) => {
+  //   var game = new Game();
+  //   game.saySomething(req.body);
+  // });
 
 
 router.get("/logout",(req,res)=>{
@@ -131,4 +133,3 @@ router.get("/logout",(req,res)=>{
 
 
 module.exports = router;
- 

@@ -25,6 +25,14 @@ let roomData = {
    room04: [] ,
 }
 
+let gameStatus = {
+  room01: '',
+  room02: '',
+  room03: '',
+  room04: '',
 
-module.exports = { usersDb, roomData };
+}
+
+
+module.exports = { usersDb, roomData, gameStatus };
 

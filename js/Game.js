@@ -8,7 +8,7 @@ class Game {
 
     saySomething(msg) 
     {
-        console.log('POST DATA IS:');
+        console.log('DATA IS:');
         console.log(msg);
     }
 

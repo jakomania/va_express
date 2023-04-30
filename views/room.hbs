@@ -85,7 +85,7 @@
       const player2User = obj[room][1].player;
       document.getElementById( "player2Avatar" ).src = player2Avatar;        
       document.getElementById( "player2User" ).innerHTML = player2User;
-      startGame();
+      startWsGame()
     }
     //console.log(room, player1Avatar, player1User, playersNumber );
 
@@ -115,7 +115,21 @@
       var data = localStorage.getItem('roominfo');
       xhr.send(data);
     }
-    
+
+
+    function startWsGame()
+    {
+      const ws = new WebSocket("ws://localhost:8080");
+      ws.addEventListener("open", () =>{
+        console.log("We are connected");
+        ws.send( localStorage.getItem('roominfo'));
+      });
+  
+      ws.addEventListener('message', (event) => {
+          console.log('Recibido JSON from Server:')
+          console.log(event.data);
+      });
+    }
     
 
 </script>
