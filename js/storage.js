@@ -10,7 +10,7 @@ let usersDb = [
     },
     {
     username: 'student',
-    email: 'estudent@gmail.com',
+    email: 'student@gmail.com',
     password: '1234',
     room: '1',
     avatar: 'images/punk04.png'
@@ -25,14 +25,6 @@ let roomData = {
    room04: [] ,
 }
 
-let gameStatus = {
-  room01: '',
-  room02: '',
-  room03: '',
-  room04: '',
 
-}
-
-
-module.exports = { usersDb, roomData, gameStatus };
+module.exports = { usersDb, roomData };
 

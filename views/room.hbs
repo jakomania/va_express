@@ -56,9 +56,9 @@
     
     
     //Refresh page every 5 seconds.
-    //window.setTimeout( function() {
-    //  window.location.reload();
-    //}, 5000);
+    window.setTimeout( function() {
+      window.location.reload();
+    }, 5000);
     
     //Personalize room with cookie data
     decodedCookie = decodeURIComponent(document.cookie.split('=')[1]);
@@ -85,7 +85,9 @@
       const player2User = obj[room][1].player;
       document.getElementById( "player2Avatar" ).src = player2Avatar;        
       document.getElementById( "player2User" ).innerHTML = player2User;
-      startWsGame()
+      startWsGame();
+      
+  
     }
     //console.log(room, player1Avatar, player1User, playersNumber );
 
@@ -100,7 +102,7 @@
       location.replace("/logout")
     }
 
-    function startGame() 
+    function postData() 
     {
       var xhr = new XMLHttpRequest();
       var url = "/game";
@@ -119,16 +121,35 @@
 
     function startWsGame()
     {
+
+      let roomInfo = JSON.parse(localStorage.getItem('roominfo'));
+      let player1Score = ['a1', 'a2', 'b1', 'b2', 'b3'];
+      let player2Score = ['a1', 'a2', 'b1', 'c2', 'c4', 'c5'];
+
+      let game = {
+        roomInfo: roomInfo, 
+        player1Score: player1Score,
+        player2Score: player2Score,
+        status: false
+      }
+      
       const ws = new WebSocket("ws://localhost:8080");
-      ws.addEventListener("open", () =>{
-        console.log("We are connected");
-        ws.send( localStorage.getItem('roominfo'));
+      ws.addEventListener("open", () =>{        
+        ws.send(JSON.stringify(game));
       });
   
       ws.addEventListener('message', (event) => {
           console.log('Recibido JSON from Server:')
           console.log(event.data);
       });
+    }
+
+    function isgGameStarted() 
+    {
+      if ( !localStorage.getItem('gameinfo')) 
+      {
+        console.log('No existe');
+      }
     }
     
 

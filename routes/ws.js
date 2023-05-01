@@ -11,32 +11,40 @@ const wss = new WebSocketServer.Server({ port: 8080 })
  
 // Creating connection using websocket
 wss.on("connection", ws => {
-    let gameData = { 
-        ke1: 'value1',
-        ke2: 'value2',
-        ke3: 'value3',
-    };
-
-    console.log("new client connected");
- 
-    // sending message to client
-    ws.send(JSON.stringify(gameData));
  
     //on message from client
-    ws.on("message", data => {
-        console.log(`Client has sent us: ${data}`)
-              
-    });
+    ws.on("message", (data) => {
+        console.log(`Recibido JSON del cliente: ${data}`)        
+        // Parseamos el JSON recibido
+        const json = JSON.parse(data);
 
-    console.log('Sended data:');
-    console.log(gameData);
+        if (json && json['roomInfo'] !== null) { 
+            const roomGame = Object.keys(json.roomInfo)[0]; {
+
+            if (json['roomInfo'][roomGame].length == 2 ) {
+                console.log('JUEGO EMPEZADO');   
+                const game = new Game(json);
+                game.getGameData();
+                ws.send(JSON.stringify(json));              
+            }}
+        } else {
+            console.log('JUEGO NO EMPEZADO')
+        } 
+        //game.init();
+        
+
+
+        // Enviamos el mismo JSON de vuelta al cliente
+        
+    });
+    
  
     // handling what to do when clients disconnects from server
     ws.on("close", () => {
         console.log("the client has gone!");
     });
     // handling client connection error
-    ws.onerror = function () {
+    ws.onerror = () => {
         console.log("Some Error occurred")
     }
 });

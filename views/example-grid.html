@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Cuadrícula clickcable de 5 cuadrados de largo</title>
+  <meta charset="utf-8">
+  <style>
+    canvas {
+      border: 1px solid black;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="miCanvas" width="200" height="200"></canvas>
+
+
+<script>
+  
+    const canvas = document.getElementById('miCanvas');
+    const ctx = canvas.getContext('2d');
+    const tamanoCelda = 40; // Tamaño de cada cuadrado
+    const numColumnas = 5; // Número de cuadrados por fila
+    const numFilas = 5; // Número de filas de cuadrados
+    const colores = ['#FF0000']; // Array de colores para las celdas
+    
+    // Función que dibuja la cuadrícula inicial
+    function dibujarCuadricula() {
+      for (let i = 0; i < numFilas; i++) {
+        for (let j = 0; j < numColumnas; j++) {
+          ctx.fillStyle = colores[j]; // Asignamos un color a cada cuadrado
+          ctx.fillRect(j * tamanoCelda, i * tamanoCelda, tamanoCelda, tamanoCelda); // Dibujamos el cuadrado
+        }
+      }
+    }
+    
+    // Función que maneja el evento de clic en el canvas
+    function clicEnCanvas(evento) {
+      const rect = canvas.getBoundingClientRect();
+      const x = evento.clientX - rect.left; // Posición x del clic relativa al canvas
+      const y = evento.clientY - rect.top; // Posición y del clic relativa al canvas
+      const col = Math.floor(x / tamanoCelda); // Columna en la que se hizo clic
+      const fila = Math.floor(y / tamanoCelda); // Fila en la que se hizo clic
+      const colorActual = ctx.fillStyle; // Guardamos el color actual
+      ctx.fillStyle = '#00FF00'; // Cambiamos el color a blanco
+      ctx.fillRect(col * tamanoCelda, fila * tamanoCelda, tamanoCelda, tamanoCelda); // Dibujamos el cuadrado blanco
+      colores[col] = colorActual; // Guardamos el color anterior en el array de colores
+    }
+    
+    // Dibujamos la cuadrícula inicial
+    dibujarCuadricula();
+    
+    // Asignamos el manejador de eventos de clic en el canvas
+    canvas.addEventListener('click', clicEnCanvas);
+  
+
+</script>
+</body>
+</html>
+
