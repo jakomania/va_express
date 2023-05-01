@@ -2,29 +2,36 @@
 
 
 class Game {
-    
+    //Grid lenght 
+     frameLength = 4;
 
-    constructor(gameData) {
-        this.gameRoom = Object.keys(gameData.roomInfo)[0];
-        this.player1Name = gameData.roomInfo[this.gameRoom][0]['player'];
-        this.player2Name = gameData.roomInfo[this.gameRoom][1]['player'];
-        this.player1Score = gameData.player1Score;
-        this.player2Score = gameData.player2Score;
-        this.gameStatus = true;                
-                
-                
+    
+    constructor() {
+        //Cells to win
+        this.cells2win = Math.pow(this.frameLength, 2) / 2 + 1;               
     }
     
-
-    getGameData() 
+    //Check player scores
+    gameProcess(json) 
     {
-        console.log('GAME DATA IS:');
-        console.log(this.gameRoom);
-        console.log(this.gameStatus);
-        console.log(this.player1Name);
-        console.log(this.player2Name);
-        console.log(this.player1Score);
-        console.log(this.player2Score);
+        let score1 = json.player1Score.length;
+        let score2 = json.player2Score.length;
+
+        if ( score1 >= this.cells2win ||
+            score2 >= this.cells2win ) {
+
+            json.status = false;
+            return json;
+            }
+        json.status = true;
+        return json;   
+    }
+
+    //Check for valid JSON from client
+    gameReady(json)
+    {
+        if (json) { return true; }        
+        return false;
     }
 
 

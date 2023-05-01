@@ -13,29 +13,20 @@ const wss = new WebSocketServer.Server({ port: 8080 })
 wss.on("connection", ws => {
  
     //on message from client
-    ws.on("message", (data) => {
-        console.log(`Recibido JSON del cliente: ${data}`)        
+    ws.on("message", (data) => {        
         // Parseamos el JSON recibido
         const json = JSON.parse(data);
+        console.log('Recibido JSON del cliente: ');        
+        console.log(json);
 
-        if (json && json['roomInfo'] !== null) { 
-            const roomGame = Object.keys(json.roomInfo)[0]; {
-
-            if (json['roomInfo'][roomGame].length == 2 ) {
-                console.log('JUEGO EMPEZADO');   
-                const game = new Game(json);
-                game.getGameData();
-                ws.send(JSON.stringify(json));              
-            }}
-        } else {
-            console.log('JUEGO NO EMPEZADO')
-        } 
-        //game.init();
-        
-
-
-        // Enviamos el mismo JSON de vuelta al cliente
-        
+        const game = new Game();
+                
+        if ( game.gameReady(json) ) {             
+            // Enviamos el mismo JSON de vuelta al cliente
+            ws.send(JSON.stringify( game.gameProcess(json))); 
+            console.log('Enviado JSON al cliente: ')        
+            console.log(game.gameProcess(json));
+            }                                             
     });
     
  
