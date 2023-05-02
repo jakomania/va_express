@@ -39,8 +39,11 @@
                         <div class="card shadow-2-strong" style="border-radius: 1rem;">
                             <div class="card-body p-5">
 
-                                <h1 class="mb-4 text-center">FINAL RESULT!!</h1>
-                                <h3 class="mb-4 text-center">TEST</h3>
+                                <h1 class="mb-4 text-center">WINNER IS:</h1>
+                                <h3 id="winner" class="mb-4 text-center"></h3>
+                                <img  class= "text-center" src="images/cup-rbg.png"  style="width: 350px;"   />
+
+                                <button onclick="logOut()" class="btn btn-primary btn-lg btn-block">Exit</button>
                         </div>
                     </div>
                 </div>
@@ -49,14 +52,18 @@
     </div>
 
 <script>
-    $("button").on("touchsart mousedown", function () {
-        $(this).addClass("clicked");
-    });
 
-    $("button").on("touchend mouseup", function () {
-        $(this).removeClass("clicked");
-        $(this).blur();
-    });
+    let winnerName = localStorage.getItem('winnerflag');
+    document.getElementById( "winner" ).innerHTML = winnerName;
+
+    
+
+    function logOut() 
+    {
+      localStorage.clear();    
+      location.replace("/logout")
+    }
+    
 </script>
 
 </body>

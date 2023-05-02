@@ -14,8 +14,8 @@ class Game {
     //Check player scores
     gameProcess(json) 
     {
-        let score1 = json.player1Score.length;
-        let score2 = json.player2Score.length;
+        let score1 = json.player1.score.length;
+        let score2 = json.player2.score.length;
 
         if ( score1 >= this.cells2win ||
             score2 >= this.cells2win ) {
@@ -35,17 +35,17 @@ class Game {
     }
 
     //Check for winner player
-    checkWinner(json)
-    {
-        let score1 = json.player1Score.length;
-        let score2 = json.player2Score.length;
+    // checkWinner(json)
+    // {
+    //     let score1 = json.player1.score.length;
+    //     let score2 = json.player2.score.length;
 
-        if ( score1 > score2)
-            { return json.player1Name }
-        if ( score2 > score1)
-            { return json.player12Name }   
-        else { console.log('EMPATE??')}
-    }
+    //     if ( score1 > score2)
+    //         { return json.player1.name }
+    //     if ( score2 > score1)
+    //         { return json.player2.name }   
+    //     else { console.log('EMPATE??')}
+    // }
 
 
 

@@ -108,21 +108,6 @@
       location.replace("/logout")
     }
 
-    //post Data Function for results page
-    function postResults(gameData) 
-    {
-      var xhr = new XMLHttpRequest();
-      var url = "/results";
-      xhr.open("POST", url, true);
-      xhr.setRequestHeader("Content-Type", "application/json");
-      //xhr.onreadystatechange = function () {
-      //    if (xhr.readyState === 4 && xhr.status === 200) {
-      //        var json = JSON.parse(xhr.responseText);
-              //console.log(json.email + ", " + json.password);
-      //    }
-      //};            
-      xhr.send(gameData);
-    }
 
     //Game Data exchange via WebSockets
     function startWsGame(player1User, player2User)
@@ -134,14 +119,18 @@
       let player1Score = ['a1', 'a2', 'b1', 'b2'];
       let player2Name = player2User;
       let player2Score = ['a3', 'b4', 'c2', 'c4', 'c1'];
-      //let player2Score = ['a1', 'a2', 'b1', 'b2', 'b3','b4', 'c2', 'c4', 'c1'];
+      //let player2Score = ['a1', 'a2', 'b1', 'b2', 'b3','b4', 'c2', 'c4', 'c1'];      
 
       let game = {
         roomInfo: roomInfo, 
-        player1Name: player1Name,
-        player1Score: player1Score,
-        player2Name: player2Name,
-        player2Score: player2Score,
+        player1: {
+          name: player1Name,
+          score: player1Score
+          },         
+        player2: {
+          name: player2Name,
+          score: player2Score
+          },
         status: null
       }
       
@@ -156,24 +145,50 @@
           console.log('Recibido JSON del Server:')
           console.log(event.data);
           let obj =JSON.parse(event.data)
+          //Trigger end game
           if (obj.status == false)            
             { 
               console.log('JUEGO TERMINADO!!!!');
               console.log(JSON.stringify(obj));
-              //postResults(JSON.stringify(obj));
+              //set "winner-flag" in local storage
+              localStorage.setItem('winnerflag', getWinner(obj));
+              //redirect results page
               window.location.replace('/results');
 
             }            
       });
     }
 
-    //function isgGameStarted() 
+    //Function to determine winner when the game over.
+    function getWinner(gameData)
+    {
+        let score1 = gameData.player1.score.length;
+        let score2 = gameData.player2.score.length;
+
+        if ( score1 > score2)
+            { return gameData.player1.name; }
+        if ( score2 > score1)
+            { return gameData.player2.name; }   
+        
+    }
+
+
+    //post Data Function for results page
+    //function postResults(gameData) 
     //{
-    //  if ( !localStorage.getItem('gameinfo')) 
-    //  {
-    //    console.log('No existe');
+    //  var xhr = new XMLHttpRequest();
+    //  var url = "/results";
+    //  xhr.open("POST", url, true);
+    //  xhr.setRequestHeader("Content-Type", "application/json");
+    //xhr.onreadystatechange = function () {
+    //    if (xhr.readyState === 4 && xhr.status === 200) {
+    //        var json = JSON.parse(xhr.responseText);
+             //console.log(json.email + ", " + json.password);
+    //    }
+    //};            
+    //xhr.send(gameData);
     //}
-    //}
+
     
 
 </script>

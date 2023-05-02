@@ -37,9 +37,6 @@ passport.deserializeUser((user, done) => {
 
 })
 
-// router.get('/cookie',function(req, res){
-//   res.cookie('cookie_name' , 'cookie_value').send('Cookie is set');
-// });
 
 // passport.use(new PassportLocal(
 //   (username, password, done) => {
@@ -58,6 +55,7 @@ router.get('/', (req, res, next) => {
   res.clearCookie('userinfo'); 
   res.render('login');
 });
+
 
 router.post('/login', 
   passport.authenticate('local', { failureRedirect: '/'}), 
@@ -117,16 +115,8 @@ router.post('/room',
       }
   });
 
-  // router.post('/game',   
-  // (req, res) => {
-  //   var game = new Game();
-  //   game.saySomething(req.body);
-  // });
 
-  router.get("/results",(req,res)=>{
-
-    // console.log("POST RESULTS: ")
-    // console.log(req.body)
+  router.get("/results",(req,res)=>{    
     res.render('results');
   });
 

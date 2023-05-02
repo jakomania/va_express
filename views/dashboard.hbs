@@ -139,8 +139,7 @@
 
     function logOut() 
     {      
-      localStorage.removeItem("userinfo");
-      localStorage.removeItem("roominfo");
+      localStorage.clear();    
       location.replace("/logout")
     }
 
