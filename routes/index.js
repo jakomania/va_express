@@ -123,6 +123,14 @@ router.post('/room',
   //   game.saySomething(req.body);
   // });
 
+  router.post("/results",(req,res)=>{
+
+    console.log("POST RESULTS: ")
+    console.log(req.body)
+    res.render("results", req.body);
+  });
+
+
 
 router.get("/logout",(req,res)=>{
   req.logout( function(err) {
@@ -130,6 +138,8 @@ router.get("/logout",(req,res)=>{
   });
   res.redirect("/");
 });
+
+
 
 
 module.exports = router;

@@ -94,13 +94,14 @@
     localStorage.setItem( 'roominfo', decodedCookie );
 
 
-
+    //Logout function
     function logOut() 
     {
       localStorage.clear();    
       location.replace("/logout")
     }
 
+    //post Data Function for results page
     function postData() 
     {
       var xhr = new XMLHttpRequest();
@@ -117,39 +118,45 @@
       xhr.send(data);
     }
 
-
+    //Game Data exchange via WebSockets
     function startWsGame()
     {
 
       let roomInfo = JSON.parse(localStorage.getItem('roominfo'));
-      let player1Score = ['a1', 'a2', 'b1', 'b2', 'b3'];
+      let player1Score = ['a1', 'a2', 'b1', 'b2'];
       let player2Score = ['a3', 'b4', 'c2', 'c4', 'c1'];
+      //let player2Score = ['a1', 'a2', 'b1', 'b2', 'b3','b4', 'c2', 'c4', 'c1'];
 
       let game = {
         roomInfo: roomInfo, 
         player1Score: player1Score,
         player2Score: player2Score,
-        status: false
+        status: null
       }
       
       const ws = new WebSocket("ws://localhost:8080");
-      ws.addEventListener("open", () =>{        
+      ws.addEventListener("open", () =>{                
         ws.send(JSON.stringify(game));
+        console.log('Enviado JSON al Server:');
+        console.log(JSON.stringify(game));
       });
   
       ws.addEventListener('message', (event) => {
-          console.log('Recibido JSON from Server:')
+          console.log('Recibido JSON del Server:')
           console.log(event.data);
+          let obj =JSON.parse(event.data)
+          if (obj.status == false)
+            {console.log('JUEGO TERMINADO!!!!');}
       });
     }
 
-    function isgGameStarted() 
-    {
-      if ( !localStorage.getItem('gameinfo')) 
-      {
-        console.log('No existe');
-      }
-    }
+    //function isgGameStarted() 
+    //{
+    //  if ( !localStorage.getItem('gameinfo')) 
+    //  {
+    //    console.log('No existe');
+    //}
+    //}
     
 
 </script>

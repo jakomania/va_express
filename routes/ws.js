@@ -29,11 +29,10 @@ wss.on("connection", ws => {
             }                                             
     });
     
- 
     // handling what to do when clients disconnects from server
-    ws.on("close", () => {
-        console.log("the client has gone!");
-    });
+    // ws.on("close", () => {
+    //     console.log("the client has gone!");
+    // });
     // handling client connection error
     ws.onerror = () => {
         console.log("Some Error occurred")
