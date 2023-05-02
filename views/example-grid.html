@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,28 +11,40 @@
   </style>
 </head>
 <body>
-  <canvas id="miCanvas" width="200" height="200"></canvas>
+  <canvas id="miCanvas" width="500" height="500"></canvas>
 
 
 <script>
-  
+
+
     const canvas = document.getElementById('miCanvas');
     const ctx = canvas.getContext('2d');
-    const tamanoCelda = 40; // Tamaño de cada cuadrado
+    const tamanoCelda = 100; // Tamaño de cada cuadrado
     const numColumnas = 5; // Número de cuadrados por fila
     const numFilas = 5; // Número de filas de cuadrados
-    const colores = ['#FF0000']; // Array de colores para las celdas
-    
+    const coloresJugador = ['#ffaf00', '#0000ff']; // Colores de cada jugador
+    let jugadorActual = 0; // Jugador que comienza el juego
+
+
     // Función que dibuja la cuadrícula inicial
     function dibujarCuadricula() {
       for (let i = 0; i < numFilas; i++) {
         for (let j = 0; j < numColumnas; j++) {
-          ctx.fillStyle = colores[j]; // Asignamos un color a cada cuadrado
+          ctx.beginPath();
+          ctx.moveTo(j * tamanoCelda, i * tamanoCelda);
+          ctx.lineTo((j + 1) * tamanoCelda, i * tamanoCelda);
+          ctx.lineTo((j + 1) * tamanoCelda, (i + 1) * tamanoCelda);
+          ctx.lineTo(j * tamanoCelda, (i + 1) * tamanoCelda);
+          ctx.closePath();
+          ctx.stroke();
+
+          ctx.fillStyle = '#FFFFFF'; // Asignamos un color al cuadrado según el jugador actual
           ctx.fillRect(j * tamanoCelda, i * tamanoCelda, tamanoCelda, tamanoCelda); // Dibujamos el cuadrado
         }
       }
     }
-    
+
+
     // Función que maneja el evento de clic en el canvas
     function clicEnCanvas(evento) {
       const rect = canvas.getBoundingClientRect();
@@ -40,19 +53,22 @@
       const col = Math.floor(x / tamanoCelda); // Columna en la que se hizo clic
       const fila = Math.floor(y / tamanoCelda); // Fila en la que se hizo clic
       const colorActual = ctx.fillStyle; // Guardamos el color actual
-      ctx.fillStyle = '#00FF00'; // Cambiamos el color a blanco
-      ctx.fillRect(col * tamanoCelda, fila * tamanoCelda, tamanoCelda, tamanoCelda); // Dibujamos el cuadrado blanco
-      colores[col] = colorActual; // Guardamos el color anterior en el array de colores
+      ctx.fillStyle = coloresJugador[jugadorActual]; // Cambiamos el color al del jugador actual
+      ctx.fillRect(col * tamanoCelda, fila * tamanoCelda, tamanoCelda, tamanoCelda); // Dibujamos el cuadrado
+      ctx.stroke();
+      jugadorActual = (jugadorActual + 1) % coloresJugador.length; // Alternamos entre los jugadores
     }
-    
+
     // Dibujamos la cuadrícula inicial
     dibujarCuadricula();
-    
+
     // Asignamos el manejador de eventos de clic en el canvas
     canvas.addEventListener('click', clicEnCanvas);
-  
+
 
 </script>
 </body>
 </html>
+
+
 
