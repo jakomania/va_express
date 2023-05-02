@@ -56,9 +56,8 @@
     
     
     //Refresh page every 5 seconds.
-    window.setTimeout( function() {
-      window.location.reload();
-    }, 5000);
+    autoRefreshePage();
+
     
     //Personalize room with cookie data
     decodedCookie = decodeURIComponent(document.cookie.split('=')[1]);
@@ -84,7 +83,7 @@
       const player2User = obj[room][1].player;
       document.getElementById( "player2Avatar" ).src = player2Avatar;        
       document.getElementById( "player2User" ).innerHTML = player2User;
-      startWsGame();
+      startWsGame(player1User, player2User);
       
   
     }
@@ -92,6 +91,14 @@
 
     //Set cookie in localStorage
     localStorage.setItem( 'roominfo', decodedCookie );
+
+
+    function autoRefreshePage() 
+    {
+      window.setTimeout( function() {
+      window.location.reload();
+      }, 5000);
+    }
 
 
     //Logout function
@@ -102,34 +109,38 @@
     }
 
     //post Data Function for results page
-    function postData() 
+    function postResults(gameData) 
     {
       var xhr = new XMLHttpRequest();
-      var url = "/game";
+      var url = "/results";
       xhr.open("POST", url, true);
       xhr.setRequestHeader("Content-Type", "application/json");
-      xhr.onreadystatechange = function () {
-          if (xhr.readyState === 4 && xhr.status === 200) {
-              var json = JSON.parse(xhr.responseText);
+      //xhr.onreadystatechange = function () {
+      //    if (xhr.readyState === 4 && xhr.status === 200) {
+      //        var json = JSON.parse(xhr.responseText);
               //console.log(json.email + ", " + json.password);
-          }
-      };      
-      var data = localStorage.getItem('roominfo');
-      xhr.send(data);
+      //    }
+      //};            
+      xhr.send(gameData);
     }
 
     //Game Data exchange via WebSockets
-    function startWsGame()
+    function startWsGame(player1User, player2User)
     {
-
+      
       let roomInfo = JSON.parse(localStorage.getItem('roominfo'));
+      //let roomNumber = Object.keys(roomInfo)[0];
+      let player1Name = player1User;
       let player1Score = ['a1', 'a2', 'b1', 'b2'];
+      let player2Name = player2User;
       let player2Score = ['a3', 'b4', 'c2', 'c4', 'c1'];
       //let player2Score = ['a1', 'a2', 'b1', 'b2', 'b3','b4', 'c2', 'c4', 'c1'];
 
       let game = {
         roomInfo: roomInfo, 
+        player1Name: player1Name,
         player1Score: player1Score,
+        player2Name: player2Name,
         player2Score: player2Score,
         status: null
       }
@@ -145,8 +156,14 @@
           console.log('Recibido JSON del Server:')
           console.log(event.data);
           let obj =JSON.parse(event.data)
-          if (obj.status == false)
-            {console.log('JUEGO TERMINADO!!!!');}
+          if (obj.status == false)            
+            { 
+              console.log('JUEGO TERMINADO!!!!');
+              console.log(JSON.stringify(obj));
+              //postResults(JSON.stringify(obj));
+              window.location.replace('/results');
+
+            }            
       });
     }
 
